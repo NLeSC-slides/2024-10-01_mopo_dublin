@@ -4,9 +4,9 @@
     <meta charset="utf-8">
 
     <!-- BEGIN CHANGE ME -->
-    <title>TITLE</title>
-    <meta name="description" content="PRESENTATION DESCRIPTION">
-    <meta name="author" content="AUTHOR NAME">
+    <title>Faster spinedb_api</title>
+    <meta name="description" content="Analyzing performance bottlenecks for spinedb_api">
+    <meta name="author" content="Ole Mussmann">
     <!-- END CHANGE ME -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
     <script src="http://localhost:35729/livereload.js"></script>
+
+    <!-- plotting -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   </head>
   <body>
     <div class="reveal">
@@ -30,29 +34,396 @@
           data-background-video-muted="true"
           data-markdown>
             <textarea data-template>
-              # My Title
-              ## Subtitle
+              # Accelerating SpineDB_API
 
-              [Author Name](mailto:a.name@esciencecenter.nl)
+              [Ole Mussmann](mailto:o.mussmann@esciencecenter.nl), [Suvayu Ali](mailto:s.ali@esciencecenter.nl)
             </textarea>
           </section>
 
           <section> <!-- start of nested slides/column -->
-            <section data-state="standard">
-              <h2>html slides</h2>
-              <p>content</p>
-              <p>with html</p>
+            <section data-state="white_overlay 5 yellow_flag logo" data-background-image="./files/ai-generated-8540922_1280.jpg">
+              <!-- https://pixabay.com/illustrations/ai-generated-big-data-data-8540922/ -->
+              <h1>Plotting Large Datasets</h1>
             </section>
 
-            <section data-state="standard" data-markdown>
+            <section data-state="white_overlay yellow_flag logo" data-background-image="./files/ai-generated-8540922_1280.jpg" data-markdown>
               <textarea data-template>
-                # Header
+                ## Profiling
+                ### Plot Selection from Editor
 
-                - list item
-                - another one
+                - Detailed call stacks
+                - Timing
+                - A lot of information
+                - Too much information 🤯 <!-- .element: class="fragment" -->
               </textarea>
             </section>
+
+            <section data-state="clear_background" data-background-color="white" data-background-iframe="http://127.0.0.1:8081/snakeviz/%2Fhome%2Fole%2Fcode%2Fspine%2FMopo-spinedb_api-benchmarks%2Fbenchmarks%2Fspinetoolbox_plot_edit_selection.pstats" data-background-interactive=>
+              <footer><p style="font-size: smaller;">Investigate: <br><code>open_db_file</code> <code>_show_table_context_menu</code>
+              </footer>
+            </section>
+
+            <section data-state="white_overlay yellow_flag logo" data-background-image="./files/ai-generated-8540922_1280.jpg" data-markdown>
+              <textarea data-template>
+
+                <style>
+                  .dialogue-left {
+                    background-color: rgba(100, 200, 100, .5);
+                    width: max-content;
+                    margin: 15px auto 15px 200px;
+                    margin-bottom: 20px;
+                    padding: 5px 15px;
+                    border-radius: 15px;
+                    border: 2px solid black;
+                    font-size: smaller;
+                  }
+                  .dialogue-right {
+                    background-color: rgba(200, 100, 100, .5);
+                    width: max-content;
+                    margin: 15px 0 15px auto;
+                    padding: 5px 15px;
+                    border-radius: 15px;
+                    border: 2px solid black;
+                    font-size: smaller;
+                  }
+                </style>
+
+                ## Data, Where You At?
+
+                <p class="fragment" data-fragment-index="6" style="margin-right: auto; width: max-content;"><code>for _ in range(270_000):</code></p>
+
+                <div class="dialogue-left">
+                  Hey data field, what's your content?
+                </div>
+
+                <div class="dialogue-right fragment" data-fragment-index="1">
+                  I have a thing here, let me get it out of this dict for you!
+                </div>
+
+                <div class="dialogue-left fragment" data-fragment-index="2">
+                  What type is it?
+                </div>
+
+                <div class="dialogue-right fragment" data-fragment-index="3">
+                  It's <code>data_type</code>!
+                </div>
+
+                <div class="dialogue-left fragment" data-fragment-index="4">
+                  Not cool, please make it <code>other_data_type</code>
+                </div>
+
+                <div class="dialogue-right fragment" data-fragment-index="5">
+                  [numbercrunch] Sure, here you go!
+                </div>
+              </textarea>
+            </section>
+
+            <section data-state="white_overlay yellow_flag logo" data-background-image="./files/ai-generated-8540922_1280.jpg">
+              <style>
+                .conclusion {
+                  background-color: rgba(100, 100, 200, .5);
+                  width: max-content;
+                  padding: 35px 55px;
+                  margin: auto;
+                  border-radius: 15px;
+                  border: 2px solid black;
+                  font-size: smaller;
+                }
+              </style>
+              <h2>Recommendation</h2>
+              <div class="conclusion">
+                <h3>Disentangling front-end and back-end</h3>
+                <ul>
+                  <li>Easier development, testing, debugging</li>
+                  <li>Easier data wrangling with a DB interface</li>
+                  <li>Better performance when retrieving data from DB</li>
+                </ul>
+              </div>
+            </section>
+
           </section> <!-- end of nested slides/column -->
+          <section>
+
+            <section data-state="white_overlay 8 yellow_flag logo" data-background-image="./files/finger-print-8456647_1280.jpg">
+              <!-- https://pixabay.com/illustrations/finger-print-technology-cyberpunk-8456647/ -->
+              <h1>Data Types</h1>
+              <h3>Benchmarks</h3>
+              <ul>
+                <li class="fragment"><code>timeit</code>, best of 50 runs</li>
+                <li class="fragment">Data on RAMdisk to counter caching variability</li>
+              </ul>
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/finger-print-8456647_1280.jpg">
+              <h2>Code Investigation:<br>Expensive Operations</h2>
+              <ul>
+                <li>type checking</li>
+                <li>nested <code>dict</code>s</li>
+                <li>append to <code>list</code></li>
+              </ul>
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/finger-print-8456647_1280.jpg">
+              <h2>Data Wrangling</h2>
+              (spinedb_api: by ID)
+                <div class="r-stretch">
+                  <canvas style="" id="dataWrangling"></canvas>
+                </div>
+
+                <script>
+                  const ctx_data_wrangling = document.getElementById('dataWrangling');
+                  Chart.defaults.font.size = 16;
+
+                  new Chart(ctx_data_wrangling, {
+                    type: 'bar',
+                    data: {
+                      labels: ['spinedb_api, full DB', 'spinedb_api, stripped DB', 'sqlite, full DB', 'sqlite, stripped DB'],
+                      datasets: [{
+                        label: 'runtime [ms]',
+                        data: [460, 385, 81, 81.1],
+                                borderWidth: 1,
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      },
+                    }
+                  });
+                </script>
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/finger-print-8456647_1280.jpg">
+              <style>
+                .conclusion {
+                  background-color: rgba(100, 100, 200, .5);
+                  width: max-content;
+                  padding: 35px 55px;
+                  margin: auto;
+                  border-radius: 15px;
+                  border: 2px solid black;
+                  font-size: smaller;
+                }
+              </style>
+              <h2>Recommendation</h2>
+              <div class="conclusion">
+                <h3>Typing and Checking during Data Creation</h3>
+                <ul>
+                  <li>Separation of responsibilities</li>
+                  <ul>
+                    <li>Maintainable code</li>
+                  </ul>
+                  <li>Less computations at run-time</li>
+                  <li>Clearer data structure</li>
+                </ul>
+              </div>
+            </section>
+
+          </section>
+
+          <section>
+
+            <section data-state="white_overlay 6 yellow_flag logo" data-background-image="./files/order-3431153_1280.jpg">
+              <h1>Data Structure</h1>
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/order-3431153_1280.jpg">
+
+              <h2>Dict Nesting</h2>
+                <div class="r-stretch">
+                  <canvas style="" id="dictNesting"></canvas>
+                </div>
+
+                <script>
+                  const ctx_dict_nesting = document.getElementById('dictNesting');
+                  Chart.defaults.font.size = 16;
+
+                  new Chart(ctx_dict_nesting, {
+                    type: 'bar',
+                    data: {
+                      labels: ['sqlite, by ID, nested', 'sqlite, by ID, not nested'],
+                      datasets: [{
+                        label: 'runtime [ms]',
+                        data: [81.1, 74.8],
+                                borderWidth: 1,
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      },
+                    }
+                  });
+                </script>
+
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/order-3431153_1280.jpg" data-auto-animate>
+              <h2>Queryable JSON BLOBs</h2>
+
+              <pre data-id="data"><code class="language-python" data-line-numbers="1-11|2-6">{
+  "data": {
+    "2000-01-01T00:00:00.0": 90.0,
+    "2000-01-01T01:00:00.0": 91.0,
+    "2000-01-01T02:00:00.0": 93.0
+  },
+  "index": {
+    "ignore_year": false,
+    "repeat": false
+  }
+}
+              </code></pre>
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/order-3431153_1280.jpg" data-auto-animate>
+              <h2>Queryable JSON BLOBs</h2>
+
+              <pre data-id="data"><code class="language-python" data-line-numbers="2-6">{
+  "data": [
+      {"t": "2000-01-01T00:00:00.0", "v": 90.0},
+      {"t": "2000-01-01T01:00:00.0", "v": 91.0},
+      {"t": "2000-01-01T02:00:00.0", "v": 93.0}
+  ],
+  "index": {
+    "ignore_year": false,
+    "repeat": false
+  }
+}
+              </code></pre>
+            </section>
+
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/order-3431153_1280.jpg">
+
+              <h2>Q. JSON BLOBs: Performance</h2>
+
+              N.B.: <code>adbc</code> now compatible with our data format! 🥳
+                <div class="r-stretch">
+                  <canvas style="" id="queryable"></canvas>
+                </div>
+
+                <script>
+                  const ctx_queryable = document.getElementById('queryable');
+                  Chart.defaults.font.size = 16;
+
+                  new Chart(ctx_queryable, {
+                    type: 'bar',
+                    data: {
+                      labels: ['sqlite, by ID, no nesting', 'sqlite, by ID, queryable JSON', 'adbc, by ID, queryable JSON'],
+                      datasets: [{
+                        label: 'runtime [ms]',
+                        data: [74.8, 29, 35.5],
+                                borderWidth: 1,
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      },
+                    }
+                  });
+                </script>
+
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/order-3431153_1280.jpg">
+
+              <h2>Discussing Parquet</h2>
+                <div class="r-stretch">
+                  <canvas style="" id="parquet"></canvas>
+                </div>
+
+                <script>
+                  const ctx_parquet = document.getElementById('parquet');
+
+                  Chart.defaults.font.size = 16;
+                  var mychart = new Chart(ctx_parquet, {
+                    type: 'bar',
+                    data: {
+                      labels: ['spinedb_api, by ID', 'sqlite, by ID, no nesting', 'adbc, by ID, queryable JSON', 'parquet'],
+                      datasets: [{
+                        label: 'runtime [ms]',
+                        data: [385, 74.8, 35.5, 6.58],
+                                borderWidth: 1,
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      },
+                    }
+                  });
+                  ctx_parquet.onclick = (e) => {
+                    if (mychart.options.scales.y.max == 80) {
+                      mychart.options.scales.y.max = 400;
+                    } else {
+                      mychart.options.scales.y.max = 80;
+                    };
+                    mychart.update();
+                  };
+                </script>
+
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/order-3431153_1280.jpg" data-markdown>
+
+            <textarea data-template>
+
+              ## Data Size
+
+              | File | Size |
+              | ----------- | ----------- |
+              | BB_data_stripped.sqlite | <b>7.5Mb</b> |
+              | BB_data_stripped_queryable.sqlite | <b>10Mb</b> |
+              | BB_data.parquet | <b>1.7Mb</b> |
+
+              <br>
+
+              - Some overhead necessary to be queryable <!-- .element: class="fragment" data-fragment-index="1" -->
+              - Parquet compresses <!-- .element: class="fragment" data-fragment-index="1" -->
+
+            </textarea>
+
+            </section>
+
+            <section data-state="white_overlay 9 yellow_flag logo" data-background-image="./files/order-3431153_1280.jpg">
+              <style>
+                .conclusion {
+                  background-color: rgba(100, 100, 200, .5);
+                  width: max-content;
+                  padding: 35px 55px;
+                  margin: auto;
+                  border-radius: 15px;
+                  border: 2px solid black;
+                  font-size: smaller;
+                }
+              </style>
+              <h2>Recommendation</h2>
+              <div class="conclusion">
+                <h3>Using a Queryable Data Structure</h3>
+                <ul>
+                  <li>Speed!</li>
+                  <li>Use DB for searching, filtering, etc.</li>
+                  <li>Separation of responsibilities (deja vu)</li>
+                  <ul>
+                    <li>Maintainable code</li>
+                  </ul>
+                </ul>
+              </div>
+            </section>
+          </section>
+
+          <section data-state="black_overlay 6 yellow_flag logo" data-background-image="./files/question-mark-2492009_1280.jpg">
+            <h1>Questions?</h1>
+          </section>
 
         <!-- END YOUR SLIDES -->
       </div>
